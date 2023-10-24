@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import MePage from './MePage';
 
 const backendUrl = import.meta.env.VITE_APP_BACKEND_URL
 
@@ -6,6 +7,8 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,6 +26,7 @@ const Login = () => {
 
       if (response.ok) {
         setMessage('Login successful! Token: ' + data);
+        setIsLoggedIn(true);
       } else {
         setMessage('Login failed! ' + data);
       }
@@ -33,6 +37,9 @@ const Login = () => {
 
   return (
     <div>
+         {isLoggedIn ? (
+           <MePage user_data={message} />
+         ):(<>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -58,7 +65,10 @@ const Login = () => {
       <div>
         <p>{message}</p>
       </div>
+      </>)}
+      
     </div>
+    
   );
 };
 
